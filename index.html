@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -147,12 +147,16 @@
     </div>
 
     <div class="instructions">
-      <strong>How to add your name:</strong><br />
-      1. Open the project repository on GitHub.<br />
-      2. Edit the <code>contributors</code> list in the JavaScript section of
-      this file.<br />
-      3. Add your info as a new object: <code>{ name: "Your Name", github: "@yourUser" }</code>.<br />
-      4. Commit the change or open a Pull Request.
+      <strong>How to add your name (GitHub fork & pull request):</strong><br />
+      1. Go to the original project repository on GitHub.<br />
+      2. Click <code>Fork</code> to create your own copy of the repo.<br />
+      3. In <strong>your fork</strong>, edit this file and update the
+      <code>contributors</code> list in the JavaScript section.<br />
+      4. Add your info as a new object:<br />
+      <code>{ name: "Your Name", github: "@yourUser" }</code><br />
+      5. Commit the change to your fork.<br />
+      6. Open a <strong>Pull Request</strong> to the original repository so the
+      maintainer can approve your change.
     </div>
 
     <div class="counter" id="counter">Loading contributors...</div>
@@ -166,7 +170,8 @@
   <script>
     // ================================
     // LIST OF CONTRIBUTORS
-    // Each member should add themselves here via GitHub.
+    // Each member must add themselves here via
+    // GitHub fork + Pull Request.
     // Example:
     // { name: "Harry Potter", github: "@harry" }
     // ================================
