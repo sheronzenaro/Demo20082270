@@ -1,26 +1,243 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Hello World!</title>
-<link rel="stylesheet" href="bluestyle.css">
+  <meta charset="UTF-8" />
+  <title>Project Contributors</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top left, #4f46e5, #020617);
+      color: #e5e7eb;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 24px;
+      width: 100%;
+      max-width: 520px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #9ca3af;
+      margin-bottom: 18px;
+    }
+
+    .instructions {
+      font-size: 0.85rem;
+      color: #9ca3af;
+      margin-bottom: 16px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px dashed rgba(148, 163, 184, 0.4);
+      line-height: 1.4;
+    }
+
+    .instructions code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
+      font-size: 0.8rem;
+      background: rgba(15, 23, 42, 0.9);
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+
+    .counter {
+      font-size: 0.85rem;
+      color: #9ca3af;
+      margin-bottom: 10px;
+    }
+
+    ul {
+      list-style: none;
+      max-height: 260px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .member {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      margin-bottom: 6px;
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(55, 65, 81, 0.8);
+      font-size: 0.95rem;
+    }
+
+    .member-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      overflow: hidden;
+    }
+
+    .member-name {
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding-right: 8px;
+    }
+
+    .member-github {
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(129, 140, 248, 0.7);
+      background: rgba(79, 70, 229, 0.1);
+      white-space: nowrap;
+    }
+
+    .empty {
+      font-size: 0.9rem;
+      color: #6b7280;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 520px) {
+      .card {
+        margin: 12px;
+        padding: 18px;
+      }
+
+      .title {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="card">
+    <div class="title">Project Contributors</div>
+    <div class="subtitle">
+      This page lists all members who are part of the project.
+    </div>
 
-<h1>Hello world!</h1>
-<div><img src="img_hello_world.jpg" alt="Hello World from Space"
-style="width:100%;max-width:960px"></div>
-<p>This is the first file in my new Git Repo.</p>
-<p>A new line in our file!</p>
+    <div class="instructions">
+      <strong>How to add your name:</strong><br />
+      1. Open the project repository on GitHub.<br />
+      2. Edit the <code>contributors</code> list in the JavaScript section of
+      this file.<br />
+      3. Add your info as a new object: <code>{ name: "Your Name", github: "@yourUser" }</code>.<br />
+      4. Commit the change or open a Pull Request.
+    </div>
 
-</body>
-</html><html>
-<head>
-<title>Hello World!</title>
-</head>
-<body>
+    <div class="counter" id="counter">Loading contributors...</div>
 
-<h1>Hello world!</h1>
-<p>This is the first file in my new Git Repo.</p>
+    <ul id="membersList"></ul>
+    <div class="empty" id="emptyState" style="display: none;">
+      No contributors yet. Be the first one! ✨
+    </div>
+  </div>
 
+  <script>
+    // ================================
+    // LIST OF CONTRIBUTORS
+    // Each member should add themselves here via GitHub.
+    // Example:
+    // { name: "Harry Potter", github: "@harry" }
+    // ================================
+    const contributors = [
+      // --- Add your object below this line ---
+      { name: "Your Name Here", github: "@yourGithub" },
+      // Example entries (you can remove these):
+      // { name: "John Doe", github: "@johndoe" },
+      // { name: "Jane Smith", github: "@janesmith" },
+      // --- Do not remove the array brackets ---
+    ];
+
+    const counter = document.getElementById("counter");
+    const membersList = document.getElementById("membersList");
+    const emptyState = document.getElementById("emptyState");
+
+    function renderContributors() {
+      membersList.innerHTML = "";
+
+      const validContributors = contributors.filter(
+        (c) => c && typeof c.name === "string" && c.name.trim() !== ""
+      );
+
+      const total = validContributors.length;
+
+      if (total === 0) {
+        counter.textContent = "0 contributors.";
+        emptyState.style.display = "block";
+        return;
+      }
+
+      emptyState.style.display = "none";
+
+      if (total === 1) {
+        counter.textContent = "1 contributor in this project.";
+      } else {
+        counter.textContent = total + " contributors in this project.";
+      }
+
+      validContributors.forEach((c) => {
+        const li = document.createElement("li");
+        li.className = "member";
+
+        const main = document.createElement("div");
+        main.className = "member-main";
+
+        const nameSpan = document.createElement("span");
+        nameSpan.className = "member-name";
+        nameSpan.textContent = c.name;
+
+        main.appendChild(nameSpan);
+
+        if (c.github) {
+          const githubSpan = document.createElement("span");
+          githubSpan.className = "member-github";
+          githubSpan.textContent = c.github;
+          main.appendChild(githubSpan);
+        }
+
+        const tag = document.createElement("span");
+        tag.className = "tag";
+        tag.textContent = "Team member";
+
+        li.appendChild(main);
+        li.appendChild(tag);
+
+        membersList.appendChild(li);
+      });
+    }
+
+    renderContributors();
+  </script>
 </body>
 </html>
